@@ -23,7 +23,7 @@ struct Adafruit_LiquidCrystal {
   void clear();
   void begin(int cols, int rows);
   void render(void);
-  void setCursor(int y, int x) {
+  void setCursor(int x, int y) {
     this->cy = y;
     this->cx = x;
   }
@@ -240,7 +240,8 @@ void loop(void) {
       g_state.wall_distance = distance_sensor.getCM();
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("New wall dist:\n");
+      lcd.print("New wall dist:");
+      lcd.setCursor(0, 1);
       lcd.print(static_cast<int>(g_state.wall_distance));
       lcd.print(".");
       lcd.print(static_cast<int>(
@@ -339,12 +340,13 @@ void render_screen(void) {
   lcd.clear();
   lcd.setCursor(0, 0);
   if (g_state.kind == State::Kind::Unarmed) {
-    lcd.print("System Unarmed\n");
+    lcd.print("System Unarmed");
+    lcd.setCursor(0, 1);
     lcd.print("Press for arming");
   } else if (g_state.kind == State::Kind::PINEntry) {
     lcd.print("Enter PIN: ");
     render_pin_entry();
-    lcd.setCursor(1, 0);
+    lcd.setCursor(0, 1);
     lcd.print("Or abort arming.");
   } else if (g_state.kind == State::Kind::WaitingToLeave) {
     lcd.print("Waiting to leave");
@@ -354,12 +356,12 @@ void render_screen(void) {
     } else {
       lcd.print("Armed.");
     }
-    lcd.setCursor(1, 0);
+    lcd.setCursor(0, 1);
     lcd.print("PIN: ");
     render_pin_entry();
   } else if (g_state.kind == State::Kind::Alarm) {
     lcd.print("Alarm active.");
-    lcd.setCursor(1, 0);
+    lcd.setCursor(0, 1);
     lcd.print("PIN: ");
     render_pin_entry();
   }
